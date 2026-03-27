@@ -18,7 +18,7 @@
 /* LOGO */
 .nav-brand {
   font-weight: 800;
-  font-size: 18px;
+  font-size: 24px;
   cursor: pointer;
 
   span {
@@ -44,6 +44,9 @@
   border-radius: 6px;
   cursor: pointer;
   transition: 0.25s;
+  font-size: 13px; /* texte plus grand */
+  font-weight: 600;
+  font-family:  'Poppins';
 
   &:hover {
     background: #0f4d3a;
