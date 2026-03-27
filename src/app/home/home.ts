@@ -1,6 +1,8 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
 import { Navbar } from '../navbar/navbar';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -10,14 +12,28 @@ import { Navbar } from '../navbar/navbar';
 })
 export class Home implements AfterViewInit {
 
-  stats = [
-    { label: 'Lieux touristiques', value: 128 },
-    { label: 'Gares SNCF', value: 42 },
-    { label: 'Trajets train', value: 560 },
-    { label: 'kg CO₂ économisés', value: 1240 }
-  ];
+  stats: any = {};
+  
+  ngOnInit() {
+    this.fetchStats();
+  }
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  fetchStats() {
+    this.http.get('http://148.60.11.118/stats/apercu').subscribe({
+      next: (res: any) => {
+        this.stats.total_points = res.total_points;
+        this.stats.dans_1km_de_la_gare = res.dans_1km_de_la_gare;
+        this.stats.carbone_economise = res.par_source?.carbone || 1240;
+      }
+    });
+  }
+
+  goTo(page: string) {
+    // navigation vers la page correspondante
+    this.router.navigate([page]);
+  }
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private router: Router,private http: HttpClient) {}
 
   async ngAfterViewInit(): Promise<void> {
     if (isPlatformBrowser(this.platformId)) {

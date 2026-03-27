@@ -12,6 +12,28 @@
   gap: 40px;
   align-items: center;
 }
+.hero-stats {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.stat-mini {
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.stat-mini .stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.stat-mini .stat-label {
+  font-size: 11px;
+  color: #9ca3af;
+}
 
 .tag {
   background: rgba(31, 122, 99, 0.15);
@@ -80,32 +102,6 @@
   font-size: 12px;
 }
 
-/* STATS */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 40px 60px;
-}
-
-.stat-card {
-  background: #0b3d2e;
-  padding: 25px;
-  border-radius: 12px;
-  text-align: center;
-}
-
-.stat-value {
-  font-size: 28px;
-  font-weight: 800;
-  color: #34d399;
-}
-
-.stat-label {
-  color: #9ca3af;
-  margin-top: 5px;
-}
-
 /* FEATURES */
 .features {
   padding: 40px 60px;
@@ -118,6 +114,7 @@
   background: #0b3d2e;
   padding: 25px;
   border-radius: 12px;
+  cursor: pointer;
   transition: 0.3s;
 }
 

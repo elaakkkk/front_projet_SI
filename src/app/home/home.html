@@ -22,6 +22,22 @@
         <button class="btn primary">Explorer les lieux</button>
         <button class="btn secondary">Voir les statistiques</button>
       </div>
+
+    <!-- PETITES STATS SOUS LES BOUTONS -->
+      <div class="hero-stats">
+        <div class="stat-mini">
+          <div class="stat-value">{{ stats.total_points }}</div>
+          <div class="stat-label">LIEUX</div>
+        </div>
+        <div class="stat-mini">
+          <div class="stat-value">{{ stats.dans_1km_de_la_gare }}</div>
+          <div class="stat-label">À ‹ 1 KM GARE</div>
+        </div>
+        <div class="stat-mini">
+          <div class="stat-value">{{ stats.carbone_economise }}</div>
+          <div class="stat-label">kg CO₂ économisés</div>
+        </div>
+      </div>
     </div>
 
     <div class="hero-right">
@@ -37,34 +53,26 @@
     </div>
   </section>
 
-  <!-- STATS -->
-  <section class="stats">
-    <div class="stat-card" *ngFor="let s of stats">
-      <div class="stat-value">{{ s.value }}</div>
-      <div class="stat-label">{{ s.label }}</div>
-    </div>
-  </section>
-
   <!-- FEATURES -->
   <section class="features">
-    <div class="feature">
-      <h3>Lieux touristiques</h3>
+    <div class="feature" (click)="goTo('/points')">
+      <h3>Lieux touristiques 🏛️</h3>
       <p>Explorez les points d’intérêt autour de Rennes.</p>
     </div>
 
-    <div class="feature">
-      <h3>Trains SNCF</h3>
+    <div class="feature" (click)="goTo('/trains')">
+      <h3>Prochains trains 🚆</h3>
       <p>Consultez les départs depuis Rennes.</p>
     </div>
 
-    <div class="feature">
-      <h3>CO₂</h3>
-      <p>Comparez train, voiture et avion.</p>
+    <div class="feature" (click)="goTo('/carbone')">
+      <h3>Calculateur CO₂ 🌱</h3>
+      <p>Comparez les émissions carbone train / voiture / avion.</p>
     </div>
 
-    <div class="feature">
-      <h3>Itinéraires</h3>
-      <p>Trouvez le meilleur trajet.</p>
+    <div class="feature" (click)="goTo('/itineraire')">
+      <h3>Itinéraires 🗺️</h3>
+      <p>Calculez comment rejoindre un lieu depuis la gare - à pied, vélo, bus ou métro.</p>
     </div>
   </section>
 
