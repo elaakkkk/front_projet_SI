@@ -1,30 +1,38 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.scss']
 })
 export class Navbar {
   @Output() tabChange = new EventEmitter<string>();
 
-  activeTab = 'home';
+  activeTab = '';
 
   tabs = [
-    { id: 'home', label: 'Accueil' },
-    { id: 'points', label: 'Lieux' },
-    { id: 'carbone', label: 'CO₂' },
-    { id: 'trains', label: 'Trains' },
-    { id: 'itin', label: 'Itinéraire' },
-    { id: 'apercu', label: 'Aperçu' }
+    { id: 'home', label: 'Accueil', route: '' },
+    { id: 'points', label: 'Lieux', route: 'points' },
+    { id: 'co2', label: 'CO₂', route: 'co2' },
+    { id: 'trains', label: 'Trains', route: 'trains' },
+    { id: 'itin', label: 'Itinéraire', route: 'itineraire' },
+    { id: 'apercu', label: 'Aperçu', route: 'apercu' }
   ];
 
-  setTab(tab: string) {
-    this.activeTab = tab;
-    this.tabChange.emit(tab);
+  constructor(private router: Router) {}
+
+  setTab(tabId: string) {
+    this.activeTab = tabId;
+    this.tabChange.emit(tabId);
+
+    const tab = this.tabs.find(t => t.id === tabId);
+    if (tab && tab.route !== undefined) {
+      this.router.navigate([tab.route]);
+    }
   }
 
   goHome() {

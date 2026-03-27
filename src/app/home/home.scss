@@ -2,6 +2,7 @@
   background: #071a14;
   color: #e8f5f1;
   min-height: 100vh;
+  padding-top: 80px;
 }
 
 /* HERO */
@@ -140,9 +141,11 @@
   }
 }
 .map-section {
+  position: relative;
   width: 90%;
   margin: 2rem auto;
   text-align: center;
+  z-index: 1;
 
   h2 {
     color: #34d399;

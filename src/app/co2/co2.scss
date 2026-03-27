@@ -1,0 +1,118 @@
+.co2-container {
+  background: #071a14;
+  color: #e8f5f1;
+  min-height: 100vh;
+  padding: 60px 40px;
+  font-family: 'Inter', sans-serif; // tu peux changer la font globale
+
+  h1 {
+    font-size: 36px;
+    font-weight: 800;
+    color: #34d399;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #9ca3af;
+    margin-bottom: 30px;
+  }
+
+  .form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+
+    input[type="text"],
+    input[type="number"] {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      background: #0b3d2e;
+      color: #e8f5f1;
+      font-size: 14px;
+      flex: 1 1 200px;
+
+      &:focus {
+        outline: none;
+        border-color: #34d399;
+      }
+    }
+
+    .btn {
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: #0b3d2e;
+      color: #e8f5f1;
+      transition: 0.3s;
+
+      &:hover {
+        background: #34d399;
+        color: #071a14;
+      }
+    }
+  }
+
+  .error {
+    color: #f87171; // rouge pour l'erreur
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
+  .results {
+    background: #0b3d2e;
+    border-radius: 16px;
+    padding: 25px 30px;
+    border: 1px solid rgba(31, 122, 99, 0.2);
+
+    h2 {
+      color: #34d399;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 15px;
+
+      li {
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+    }
+
+    p {
+      font-size: 14px;
+      margin: 5px 0;
+
+      &.source {
+        color: #9ca3af;
+        font-style: italic;
+      }
+    }
+  }
+
+  @media (max-width: 900px) {
+    padding: 30px 20px;
+
+    .form {
+      flex-direction: column;
+
+      input,
+      .btn {
+        flex: 1 1 auto;
+      }
+    }
+
+    h1 {
+      font-size: 28px;
+    }
+
+    .results {
+      padding: 20px;
+    }
+  }
+}
