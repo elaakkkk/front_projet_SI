@@ -3,7 +3,7 @@
   color: #e8f5f1;
   min-height: 100vh;
   padding: 60px 40px;
-  font-family: 'Inter', sans-serif; // tu peux changer la font globale
+  font-family: 'Inter', sans-serif; 
 
   h1 {
     font-size: 36px;
@@ -14,24 +14,33 @@
 
   p {
     color: #9ca3af;
+    font-size: 14px;
     margin-bottom: 30px;
   }
 
   .form {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
+    // flex-wrap: wrap;
+    gap: 1rem;
+    width: 50%;
     margin-bottom: 20px;
+
+    .card-input{
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        width: 50%;
+    }
 
     input[type="text"],
     input[type="number"] {
+      flex: 1;
       padding: 10px 14px;
       border-radius: 8px;
       border: 1px solid rgba(52, 211, 153, 0.4);
       background: #0b3d2e;
       color: #e8f5f1;
       font-size: 14px;
-      flex: 1 1 200px;
 
       &:focus {
         outline: none;
@@ -39,22 +48,22 @@
       }
     }
 
-    .btn {
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      background: #0b3d2e;
-      color: #e8f5f1;
-      transition: 0.3s;
+}
+.btn {
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: #0b3d2e;
+  color: #e8f5f1;
+  transition: 0.3s;
 
-      &:hover {
-        background: #34d399;
-        color: #071a14;
-      }
-    }
+  &:hover {
+    background: #34d399;
+    color: #071a14;
   }
+}
 
   .error {
     color: #f87171; // rouge pour l'erreur
