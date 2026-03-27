@@ -1,0 +1,20 @@
+<nav class="navbar">
+
+  <!-- LOGO -->
+  <div class="nav-brand" (click)="goHome()">
+    Tourisme <span>Bretagne</span>
+  </div>
+
+  <!-- MENU -->
+  <div class="nav-links">
+    <button
+      *ngFor="let tab of tabs"
+      (click)="setTab(tab.id)"
+      [class.active]="activeTab === tab.id"
+      class="nav-btn"
+    >
+      {{ tab.label }}
+    </button>
+  </div>
+
+</nav>

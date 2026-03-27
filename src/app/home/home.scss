@@ -1,0 +1,144 @@
+.home {
+  background: #071a14;
+  color: #e8f5f1;
+  min-height: 100vh;
+}
+
+/* HERO */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 80px 60px;
+  gap: 40px;
+  align-items: center;
+}
+
+.tag {
+  background: rgba(31, 122, 99, 0.15);
+  border: 1px solid rgba(31, 122, 99, 0.3);
+  color: #34d399;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.hero h1 span {
+  color: #34d399;
+}
+
+.hero p {
+  margin-top: 15px;
+  color: #9ca3af;
+  max-width: 420px;
+}
+
+/* BUTTONS */
+.buttons {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn.primary {
+  background: #0b3d2e;
+  color: white;
+}
+
+.btn.secondary {
+  background: transparent;
+  border: 1px solid #1f7a63;
+  color: #34d399;
+}
+
+/* INFO CARD */
+.info-card {
+  background: #0b3d2e;
+  border-radius: 16px;
+  padding: 30px;
+  border: 1px solid rgba(31, 122, 99, 0.2);
+  text-align: center;
+}
+
+.info-card span {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+/* STATS */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 40px 60px;
+}
+
+.stat-card {
+  background: #0b3d2e;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: #34d399;
+}
+
+.stat-label {
+  color: #9ca3af;
+  margin-top: 5px;
+}
+
+/* FEATURES */
+.features {
+  padding: 40px 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.feature {
+  background: #0b3d2e;
+  padding: 25px;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.feature:hover {
+  background: #0f4d3a;
+  transform: translateY(-4px);
+}
+
+.feature h3 {
+  color: #34d399;
+  margin-bottom: 10px;
+}
+
+.feature p {
+  color: #9ca3af;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}

@@ -1,0 +1,67 @@
+<app-navbar></app-navbar>
+
+<div class="home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="tag">Open Data · Tourisme · Train</div>
+
+      <h1>
+        Tourisme en Train<br>
+        autour de <span>Rennes</span>
+      </h1>
+
+      <p>
+        Découvrez les lieux touristiques accessibles en train,
+        comparez l'impact carbone et planifiez vos itinéraires
+        depuis la gare de Rennes.
+      </p>
+
+      <div class="buttons">
+        <button class="btn primary">Explorer les lieux</button>
+        <button class="btn secondary">Voir les statistiques</button>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="info-card">
+        <h3>Gare de Rennes</h3>
+        <p>Point de départ des itinéraires</p>
+        <span>48.103°N · 1.672°W</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat-card" *ngFor="let s of stats">
+      <div class="stat-value">{{ s.value }}</div>
+      <div class="stat-label">{{ s.label }}</div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="feature">
+      <h3>Lieux touristiques</h3>
+      <p>Explorez les points d’intérêt autour de Rennes.</p>
+    </div>
+
+    <div class="feature">
+      <h3>Trains SNCF</h3>
+      <p>Consultez les départs depuis Rennes.</p>
+    </div>
+
+    <div class="feature">
+      <h3>CO₂</h3>
+      <p>Comparez train, voiture et avion.</p>
+    </div>
+
+    <div class="feature">
+      <h3>Itinéraires</h3>
+      <p>Trouvez le meilleur trajet.</p>
+    </div>
+  </section>
+
+</div>
