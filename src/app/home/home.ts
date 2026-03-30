@@ -15,7 +15,9 @@ export class Home implements AfterViewInit {
   stats: any = {};
   
   ngOnInit() {
-    this.fetchStats();
+    if (isPlatformBrowser(this.platformId)) {
+      this.fetchStats();
+    }
   }
 
   fetchStats() {
@@ -47,9 +49,7 @@ export class Home implements AfterViewInit {
       }).addTo(map);
 
       const icons = {
-        tourisme: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', iconSize: [32,32], iconAnchor: [16,32] }),
-        train: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/69/69911.png', iconSize: [32,32], iconAnchor: [16,32] }),
-        co2: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/616/616408.png', iconSize: [32,32], iconAnchor: [16,32] })
+        tourisme: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', iconSize: [32,32], iconAnchor: [16,32] })
       };
 
       L.marker([48.103, -1.672], { icon: icons.tourisme }).addTo(map).bindPopup('Gare de Rennes');

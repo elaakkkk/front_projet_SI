@@ -54,14 +54,16 @@
   </section>
 
   <!-- FEATURES -->
+  <h2>Accès rapide</h2>
+  <h3>Les fonctionnalités principales du projet</h3>
   <section class="features">
     <div class="feature" (click)="goTo('/points')">
-      <h3>Lieux touristiques 🏛️</h3>
+      <h3>Points d'intérêt 📍</h3>
       <p>Explorez les points d’intérêt autour de Rennes.</p>
     </div>
 
     <div class="feature" (click)="goTo('/trains')">
-      <h3>Prochains trains 🚆</h3>
+      <h3>Prochains trains 🚉</h3>
       <p>Consultez les départs depuis Rennes.</p>
     </div>
 
@@ -76,6 +78,40 @@
     </div>
   </section>
 
+  <!-- SOURCES -->
+  <section class="sources">
+    <h2>Sources de données ouvertes</h2>
 
+    <div class="sources-grid">
 
+      <div class="source-card">
+        <div class="icon">🚉</div>
+        <h3>API SNCF / Navitia</h3>
+        <p>Horaires, gares, trajets en temps réel</p>
+        <span>api.sncf.com</span>
+      </div>
+
+      <div class="source-card">
+        <div class="icon">🏛️</div>
+        <h3>Basilic</h3>
+        <p>3 255 lieux touristiques (data.gouv)</p>
+        <span>data.gouv.fr</span>
+      </div>
+
+      <div class="source-card">
+        <div class="icon">🗺️</div>
+        <h3>OpenStreetMap</h3>
+        <p>Carte interactive et tracés ferroviaires</p>
+        <span>openstreetmap.org</span>
+      </div>
+
+      <div class="source-card">
+        <div class="icon">📊</div>
+        <h3>data.gouv.fr</h3>
+        <p>Défi Open Data SNCF</p>
+        <span>defis.data.gouv.fr</span>
+      </div>
+
+    </div>
+  </section>
 </div>
