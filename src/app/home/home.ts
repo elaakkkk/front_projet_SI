@@ -1,12 +1,13 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
 import { Navbar } from '../navbar/navbar';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.html',
   styleUrls: ['./home.scss'],
-  imports: [CommonModule, Navbar]
+  imports: [CommonModule, Navbar, RouterModule]
 })
 export class Home implements AfterViewInit {
 
