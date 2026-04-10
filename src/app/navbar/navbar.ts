@@ -20,7 +20,7 @@ export class Navbar {
     { id: 'co2', label: 'CO₂', route: 'co2' },
     { id: 'trains', label: 'Trains', route: 'trains' },
     { id: 'itin', label: 'Itinéraire', route: 'itineraire' },
-    { id: 'apercu', label: 'Aperçu', route: 'apercu' }
+    { id: 'apercu', label: 'Aperçu', route: 'statistiques' }
   ];
 
   constructor(private router: Router) {}
