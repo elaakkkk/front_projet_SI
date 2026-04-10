@@ -1,0 +1,52 @@
+<app-navbar></app-navbar>
+
+<section class="itineraire-page">
+  <div class="container">
+    <h1>Itinéraire</h1>
+    <p class="subtitle">
+      Calculez un trajet depuis la Gare de Rennes vers votre destination.
+    </p>
+
+    <div class="form-card">
+      <div class="form-group">
+        <label for="depart">Point de départ</label>
+        <input id="depart" type="text" [(ngModel)]="pointDepart" />
+      </div>
+
+      <div class="form-group">
+        <label for="destination">Destination</label>
+        <input
+          id="destination"
+          type="text"
+          [(ngModel)]="destination"
+          placeholder="Ex: Parlement de Bretagne"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="mode">Mode préféré</label>
+        <select id="mode" [(ngModel)]="mode">
+          <option value="marche">Marche</option>
+          <option value="velo">Vélo</option>
+          <option value="bus">Bus</option>
+          <option value="metro">Métro</option>
+        </select>
+      </div>
+
+      <button class="btn-primary" (click)="calculerItineraire()">
+        Calculer
+      </button>
+    </div>
+
+    <div class="results-card">
+      <h2>Résultats</h2>
+      <div class="result-list">
+        <div class="result-item" *ngFor="let r of resultats">
+          <h3>{{ r.mode }}</h3>
+          <p>Durée : {{ r.duree }}</p>
+          <p>Distance : {{ r.distance }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

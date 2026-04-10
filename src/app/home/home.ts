@@ -4,11 +4,12 @@ import { Navbar } from '../navbar/navbar';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.html',
   styleUrls: ['./home.scss'],
-  imports: [CommonModule, Navbar]
+  imports: [CommonModule, Navbar,]
 })
 export class Home implements AfterViewInit {
 
