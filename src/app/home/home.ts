@@ -14,7 +14,11 @@ import { RouterModule } from '@angular/router';
 })
 export class Home implements AfterViewInit {
 
-  stats: any = {};
+  stats = {
+    total_points: 985,
+    dans_1km_de_la_gare: 40,
+    carbone_economise: 1240
+  };
   
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
@@ -25,9 +29,9 @@ export class Home implements AfterViewInit {
   fetchStats() {
     this.http.get('http://148.60.11.118/stats/apercu').subscribe({
       next: (res: any) => {
-        this.stats.total_points = res.total_points;
-        this.stats.dans_1km_de_la_gare = res.dans_1km_de_la_gare;
-        this.stats.carbone_economise = res.par_source?.carbone || 1240;
+        this.stats.total_points = res.total_points ;
+        this.stats.dans_1km_de_la_gare = res.dans_1km_de_la_gare ;
+        this.stats.carbone_economise = res.par_source?.carbone ;
       }
     });
   }
