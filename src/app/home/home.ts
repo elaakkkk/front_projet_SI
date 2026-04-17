@@ -44,22 +44,137 @@ export class Home implements AfterViewInit {
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private router: Router,private http: HttpClient) {}
 
   async ngAfterViewInit(): Promise<void> {
-    if (isPlatformBrowser(this.platformId)) {
-      // Import dynamique côté client seulement
-      const leafletModule = await import('leaflet');
-      const L = leafletModule.default;
+  if (!isPlatformBrowser(this.platformId)) return;
 
-      const map = L.map('map').setView([48.103, -1.672], 13);
+  const leafletModule = await import('leaflet');
+  const L: any = leafletModule.default;
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
+  const gare = L.latLng(48.102, -1.6702);
 
-      const icons = {
-        tourisme: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', iconSize: [32,32], iconAnchor: [16,32] })
-      };
+  const map = L.map('map').setView([48.103, -1.672], 13);
 
-      L.marker([48.103, -1.672], { icon: icons.tourisme }).addTo(map).bindPopup('Gare de Rennes');
-    }
-  }
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap'
+  }).addTo(map);
+
+  // -----------------------------
+  // NORMALISATION
+  // -----------------------------
+  const normalize = (t: string) =>
+    (t || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '');
+
+  const isMusee = (t: string) => normalize(t).includes('musee');
+  const isCinema = (t: string) => normalize(t).includes('cinema');
+  const isMonument = (t: string) => normalize(t).includes('monument');
+
+  // -----------------------------
+  // COULEURS
+  // -----------------------------
+  const getColor = (t: string) => {
+    if (isMusee(t)) return '#e74c3c';     // rouge
+    if (isCinema(t)) return '#2ecc71';    // vert
+    if (isMonument(t)) return '#9b59b6';  // violet
+    return '#34d399';
+  };
+
+  // -----------------------------
+  // DISTANCE
+  // -----------------------------
+  const distanceKm = (lat: number, lng: number) => {
+    const R = 6371;
+    const dLat = (lat - gare.lat) * Math.PI / 180;
+    const dLng = (lng - gare.lng) * Math.PI / 180;
+
+    const a =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(gare.lat * Math.PI / 180) *
+      Math.cos(lat * Math.PI / 180) *
+      Math.sin(dLng / 2) ** 2;
+
+    return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+  };
+
+  // -----------------------------
+  // LAYERS
+  // -----------------------------
+  const layers: any = {
+    Musée: L.layerGroup().addTo(map),
+    Cinéma: L.layerGroup().addTo(map),
+    Monument: L.layerGroup().addTo(map)
+  };
+
+  // -----------------------------
+  // DATA
+  // -----------------------------
+  const res: any = await this.http
+    .get('http://148.60.11.118/points')
+    .toPromise();
+
+  res.forEach((p: any) => {
+
+    const type = p.type || '';
+    const dist = distanceKm(p.latitude, p.longitude);
+
+    let group = null;
+
+    if (isMusee(type)) group = 'Musée';
+    else if (isCinema(type)) group = 'Cinéma';
+    else if (isMonument(type)) group = 'Monument';
+    else return; // ignore autres types
+
+    const marker = L.circleMarker([p.latitude, p.longitude], {
+      radius: Math.max(4, 10 - dist),
+      color: getColor(type),
+      fillColor: getColor(type),
+      fillOpacity: 0.8
+    }).bindPopup(`
+      <b>${p.nom}</b><br/>
+      ${type}<br/>
+      ${dist.toFixed(2)} km
+    `);
+
+    layers[group].addLayer(marker);
+  });
+
+  // -----------------------------
+  // GARE
+  // -----------------------------
+  L.marker(gare, {
+    icon: L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32]
+    })
+  }).addTo(map).bindPopup("Gare de Rennes");
+
+  // -----------------------------
+  // FILTRES (LEAFLET CONTROL)
+  // -----------------------------
+  L.control.layers(null, layers, {
+    collapsed: false
+  }).addTo(map);
+
+  // -----------------------------
+  // LÉGENDE SIMPLE
+  // -----------------------------
+  const legend = L.control({ position: 'bottomleft' });
+
+  legend.onAdd = () => {
+    const div = L.DomUtil.create('div', 'legend');
+    div.innerHTML = `
+      <div style="background:#0b3d2e;color:white;padding:10px;border-radius:10px">
+        <b>Légende</b><br/>
+        🔴 Musée<br/>
+        🟢 Cinéma<br/>
+        🟣 Monument
+      </div>
+    `;
+    return div;
+  };
+
+  legend.addTo(map);
+}
 }
