@@ -46,7 +46,8 @@ export class Home implements AfterViewInit {
   async ngAfterViewInit(): Promise<void> {
     if (isPlatformBrowser(this.platformId)) {
       // Import dynamique côté client seulement
-      const L = await import('leaflet');
+      const leafletModule = await import('leaflet');
+      const L = leafletModule.default;
 
       const map = L.map('map').setView([48.103, -1.672], 13);
 
