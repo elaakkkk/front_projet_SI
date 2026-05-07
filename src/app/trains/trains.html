@@ -1,0 +1,83 @@
+<app-navbar></app-navbar>
+
+<section class="trains-page">
+
+  <div class="container">
+
+    <div class="header">
+      <h1>🚆 Prochains trains</h1>
+      <p>Départs depuis la Gare de Rennes</p>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-box">
+
+      <input
+        type="text"
+        placeholder="Filtrer une destination..."
+        [(ngModel)]="searchTrain"
+        (input)="filterTrains()"
+      />
+
+      <button (click)="filterTrains()">
+        Rechercher
+      </button>
+
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading" *ngIf="loading">
+      Chargement des trains...
+    </div>
+
+    <!-- ERROR -->
+    <div class="error" *ngIf="error">
+      {{ error }}
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrapper" *ngIf="filteredTrains.length > 0">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Destination</th>
+            <th>Départ</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let train of filteredTrains">
+
+            <td>
+              <strong>{{ train.destination }}</strong>
+            </td>
+
+            <td>{{ train.depart }}</td>
+
+            <td>
+
+              <span
+                class="badge"
+                [class.tgv]="train.type === 'TGV'"
+                [class.ter]="train.type === 'TER'"
+              >
+                {{ train.type }}
+              </span>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>

@@ -16,7 +16,6 @@ export class Navbar {
 
   tabs = [
     { id: 'home', label: 'Accueil', route: '' },
-    //{ id: 'points', label: 'Lieux', route: 'points' },
     { id: 'co2', label: 'CO₂', route: 'co2' },
     { id: 'trains', label: 'Trains', route: 'trains' },
     { id: 'itin', label: 'Itinéraire', route: 'itineraire' },

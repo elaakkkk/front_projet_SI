@@ -1,0 +1,175 @@
+.trains-page {
+  background: #071a14;
+  min-height: 100vh;
+  padding: 100px 20px;
+  color: #e8f5f1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.header {
+
+  margin-bottom: 35px;
+
+  h1 {
+    color: #34d399;
+    font-size: 40px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #9ca3af;
+  }
+}
+
+/* SEARCH */
+.search-box {
+
+  display: flex;
+  gap: 12px;
+
+  margin-bottom: 30px;
+
+  input {
+
+    flex: 1;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    border: 1px solid rgba(52,211,153,0.2);
+
+    background: #0b3d2e;
+    color: white;
+
+    outline: none;
+
+    &:focus {
+      border-color: #34d399;
+    }
+  }
+
+  button {
+
+    padding: 14px 22px;
+
+    border: none;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    background: #34d399;
+    color: #071a14;
+
+    font-weight: 700;
+
+    transition: .25s;
+
+    &:hover {
+      transform: translateY(-2px);
+      background: #0b3d2e;
+      color : #34d399;
+    }
+  }
+}
+
+/* TABLE */
+.table-wrapper {
+
+  overflow-x: auto;
+
+  background: #0b3d2e;
+
+  border-radius: 18px;
+
+  border: 1px solid rgba(52,211,153,0.1);
+
+  padding: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+
+  th {
+
+    padding: 18px;
+
+    color: #34d399;
+
+    text-align: left;
+
+    font-size: 13px;
+
+    text-transform: uppercase;
+  }
+}
+
+tbody {
+
+  tr {
+
+    border-top: 1px solid rgba(255,255,255,0.05);
+
+    transition: .25s;
+
+    &:hover {
+      background: rgba(52,211,153,0.05);
+    }
+  }
+
+  td {
+    padding: 18px;
+    color: #e8f5f1;
+  }
+}
+
+/* BADGES */
+.badge {
+
+  padding: 6px 12px;
+
+  border-radius: 30px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tgv {
+  background: rgba(59,130,246,.15);
+  color: #60a5fa;
+}
+
+.ter {
+  background: rgba(52,211,153,.15);
+  color: #34d399;
+}
+
+.loading,
+.error {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.error {
+  color: #ff6b6b;
+}
+
+@media (max-width: 900px) {
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  table {
+    min-width: 700px;
+  }
+}
