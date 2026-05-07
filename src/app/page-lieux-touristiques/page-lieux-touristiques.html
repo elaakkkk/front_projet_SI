@@ -1,0 +1,26 @@
+  <app-navbar></app-navbar>
+  <div class="page-lieux">
+
+    <div class="page-lieux__header">
+      <h1>Lieux touristiques</h1>
+      <p>Filtrez par type, domaine ou proximité de la gare</p>
+    </div>
+
+    <app-filtre
+      [types]="types"
+      [domaines]="domaines"
+      [filtres]="filtres"
+      (filtresChange)="onFiltresChange($event)"
+      (reinitialiser)="onReset()">
+    </app-filtre>
+
+      @if(erreur){
+        <div class="page-lieux__erreur" >{{ erreur }}</div>
+      }
+
+
+    <app-section-lieux
+      [points]="pointsFiltres"
+      [loading]="loading">
+    </app-section-lieux>
+  </div>

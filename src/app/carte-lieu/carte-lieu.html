@@ -1,0 +1,27 @@
+<div class="carte">
+
+  <!-- Header source -->
+  <div class="carte__source">
+    <span class="carte__source-icon">{{ getSourceIcon() }}</span>
+    <span class="carte__source-label">{{ getSourceLabel() }}</span>
+  </div>
+
+  <!-- Nom + adresse -->
+  <div class="carte__body">
+    <h3 class="carte__nom">{{ point.nom }}</h3>
+      @if(point.adresse){
+         <p class="carte__adresse">{{ point.adresse }}</p>
+      }
+  </div>
+
+  <!-- Footer : type + distance -->
+  <div class="carte__footer">
+      @if(point.type){
+       <span class="carte__badge">{{ point.type }} </span>
+      }
+      @if(point.distance_km!=null){
+        <span class="carte__distance" >{{ getDistanceLabel() }}</span>
+      }
+  </div>
+
+</div>

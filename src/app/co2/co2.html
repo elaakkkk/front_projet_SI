@@ -20,26 +20,26 @@
  </div>
 <div class="actions">
       <button class="btn primary" (click)="calculate()">Calculer</button>
-
-  </div>
+</div>
 
   <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div>
+    <div class="results" *ngIf="result">
+      <h2>Résultats pour {{ result.destination }} ({{ result.nb_personnes }} personne{{ result.nb_personnes > 1 ? 's' : '' }})</h2>
+      
+      <ul>
+        <li>Train 🚆 : {{ result.emissions.train.co2_kg | number:'1.0-2' }} kg CO₂</li>
+        <li>Voiture 🚗 : {{ result.emissions.voiture.co2_kg | number:'1.0-2' }} kg CO₂</li>
+        <li>Avion ✈️ : {{ result.emissions.avion.co2_kg | number:'1.0-2' }} kg CO₂</li>
+      </ul>
 
-  <div class="results" *ngIf="result">
-    <h2>Résultats pour {{ result.destination }} ({{ result.nb_personnes }} personne{{ result.nb_personnes > 1 ? 's' : '' }})</h2>
-    
-    <ul>
-      <li>Train 🚆 : {{ result.emissions.train.co2_kg | number:'1.0-2' }} kg CO₂</li>
-      <li>Voiture 🚗 : {{ result.emissions.voiture.co2_kg | number:'1.0-2' }} kg CO₂</li>
-      <li>Avion ✈️ : {{ result.emissions.avion.co2_kg | number:'1.0-2' }} kg CO₂</li>
-    </ul>
+      <p><strong>Économie CO₂ si train vs voiture :</strong> {{ result.economie_train_vs_voiture_kg | number:'1.0-2' }} kg</p>
+      <p><em>{{ result.equivalent }}</em></p>
 
-    <p><strong>Économie CO₂ si train vs voiture :</strong> {{ result.economie_train_vs_voiture_kg | number:'1.0-2' }} kg</p>
-    <p><em>{{ result.equivalent }}</em></p>
-
-    <!-- <p class="note">
-      ⚠️ Les valeurs sont estimées à partir des données ADEME - Base Carbone. 
-      Le calcul est basé sur le trajet depuis Rennes pour le nombre de personnes indiqué.
-    </p> -->
+      <!-- <p class="note">
+        ⚠️ Les valeurs sont estimées à partir des données ADEME - Base Carbone. 
+        Le calcul est basé sur le trajet depuis Rennes pour le nombre de personnes indiqué.
+      </p> -->
+    </div>
   </div>
 </div>
