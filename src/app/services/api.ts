@@ -1,27 +1,50 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Api {
+
   private baseUrl = 'http://148.60.11.118';
 
   constructor(private http: HttpClient) {}
 
+  // 📍 GET /itineraires/{pointId}
   getItineraireById(pointId: string) {
     return this.http.get(`${this.baseUrl}/itineraires/${pointId}`);
   }
 
+  // 🔎 GET /itineraires/search/{nom}
   getItineraireByName(nom: string) {
     return this.http.get(`${this.baseUrl}/itineraires/search/${encodeURIComponent(nom)}`);
   }
 
+  // 🌍 GET /itineraires?lat=...&lon=...
   getItineraireByCoords(lat: number, lon: number) {
-    return this.http.get(`${this.baseUrl}/itineraires/?lat=${lat}&lon=${lon}`);
+
+    const params = new HttpParams()
+      .set('lat', String(lat))
+      .set('lon', String(lon));
+
+    return this.http.get(`${this.baseUrl}/itineraires/`, { params });
   }
 
+  // 📊 Stats
   getStatsApercu(ville: string) {
-    return this.http.get(`${this.baseUrl}/stats/apercu?ville=${encodeURIComponent(ville)}`);
+    const params = new HttpParams()
+      .set('ville', encodeURIComponent(ville));
+
+    return this.http.get(`${this.baseUrl}/stats/apercu`, { params });
+  }
+  // 🚆 GET /sncf/trains
+  getTrains(limit: number = 10, destination?: string) {
+    let params = new HttpParams().set('limit', String(limit));
+
+    if (destination) {
+      params = params.set('destination', destination);
+    }
+
+    return this.http.get(`${this.baseUrl}/sncf/trains`, { params });
   }
 }

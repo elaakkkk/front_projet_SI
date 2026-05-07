@@ -12,39 +12,48 @@ import { Api } from '../services/api';
   styleUrl: './itineraire.scss',
 })
 export class Itineraire {
+
   pointDepart = 'Gare de Rennes';
   destination = '';
-  mode = 'velo';
-
-  resultats: any[] = [];
+  
+  modes: any[] = [];
+  recommande: string = '';
+  
   messageErreur = '';
+  destinationTrouvee: string = '';
+  distanceTrouvee: number = 0;
+
+  icons: any = {
+    marche: '🚶',
+    velo: '🚴',
+    bus: '🚌',
+    metro: '🚇'
+  };
 
   constructor(private api: Api, private cdr: ChangeDetectorRef) {}
 
   calculerItineraire() {
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
-    }
+
+    (document.activeElement as HTMLElement)?.blur();
 
     const valeur = this.destination.trim();
 
-    this.resultats = [];
+    this.modes = [];
     this.messageErreur = '';
 
     if (!valeur) {
       this.messageErreur = 'Veuillez entrer une destination.';
-      this.cdr.detectChanges();
       return;
     }
 
+    // 📍 COORDONNÉES
     if (valeur.includes(',')) {
-      const parties = valeur.split(',');
-      const lat = parseFloat(parties[0].trim());
-      const lon = parseFloat(parties[1].trim());
+      const [latStr, lonStr] = valeur.split(',');
+      const lat = parseFloat(latStr.trim());
+      const lon = parseFloat(lonStr.trim());
 
       if (isNaN(lat) || isNaN(lon)) {
         this.messageErreur = 'Coordonnées invalides. Exemple : 48.1173,-1.6778';
-        this.cdr.detectChanges();
         return;
       }
 
@@ -52,34 +61,55 @@ export class Itineraire {
         next: (data: any) => this.afficherResultats(data),
         error: () => {
           this.messageErreur = 'Erreur backend avec les coordonnées.';
-          this.cdr.detectChanges();
         },
       });
 
       return;
     }
 
+    // 🔎 NOM
     this.api.getItineraireByName(valeur).subscribe({
       next: (data: any) => this.afficherResultats(data),
       error: () => {
-        this.api.getItineraireById(valeur).subscribe({
-          next: (data: any) => this.afficherResultats(data),
-          error: () => {
-            this.messageErreur = 'Aucun lieu trouvé avec cette destination.';
-            this.cdr.detectChanges();
-          },
-        });
+        this.messageErreur = 'Aucun lieu trouvé avec cette destination.';
       },
     });
   }
 
   afficherResultats(data: any) {
-    this.resultats = [
-      { mode: 'Marche', duree: `${data.modes.marche.duree_minutes} min`, distance: `${data.distance_km} km` },
-      { mode: 'Vélo', duree: `${data.modes.velo.duree_minutes} min`, distance: `${data.distance_km} km` },
-      { mode: 'Bus', duree: `${data.modes.bus.duree_minutes} min`, distance: `${data.distance_km} km` },
-      { mode: 'Métro', duree: `${data.modes.metro.duree_minutes} min`, distance: `${data.distance_km} km` },
-    ];
+
+    // 🧠 support backend ancien + multi-résultats
+    let item;
+
+    if (data.resultats && data.resultats.length > 0) {
+
+      // 🔥 tri intelligent par distance
+      const sorted = [...data.resultats].sort(
+        (a, b) => a.distance_km - b.distance_km
+      );
+
+      item = sorted[0]; // meilleur résultat
+
+    } else {
+      item = data;
+    }
+
+    if (!item?.modes) {
+      this.messageErreur = 'Données invalides reçues du serveur.';
+      return;
+    }
+
+    this.destinationTrouvee = item.point?.nom || 'Destination inconnue' ;
+    this.distanceTrouvee = item.distance_km;
+    const modesBackend = item.modes;
+
+    this.modes = Object.keys(modesBackend).map((key) => ({
+      mode: key,
+      duree: modesBackend[key].duree_minutes,
+      distance: item.distance_km
+    }));
+
+    this.recommande = item.recommande;
 
     this.cdr.detectChanges();
   }

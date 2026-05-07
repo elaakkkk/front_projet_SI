@@ -2,13 +2,16 @@
 
 <section class="itineraire-page">
   <div class="container">
+
     <h1>Itinéraire</h1>
 
     <p class="subtitle">
       Calculez un trajet depuis la Gare de Rennes avec un nom de lieu, un identifiant ou des coordonnées GPS.
     </p>
 
+    <!-- FORM -->
     <div class="form-card">
+
       <div class="form-group">
         <label>Point de départ</label>
         <input type="text" [(ngModel)]="pointDepart" />
@@ -19,37 +22,83 @@
         <input
           type="text"
           [(ngModel)]="destination"
-          placeholder="Ex: musée, parc, lieux_2 ou 48.1173,-1.6778"
+          placeholder="Ex: musée, parc, ... "
+          (keyup.enter)="calculerItineraire()"
         />
-      </div>
-
-      <div class="form-group">
-        <label>Mode préféré</label>
-        <select [(ngModel)]="mode">
-          <option value="marche">Marche</option>
-          <option value="velo">Vélo</option>
-          <option value="bus">Bus</option>
-          <option value="metro">Métro</option>
-        </select>
       </div>
 
       <button type="button" class="btn-primary" (click)="calculerItineraire()">
         Calculer
       </button>
+
     </div>
 
-    <div class="results-card">
-      <h2>Résultats</h2>
+    <!-- ERREUR -->
+    <p class="error" *ngIf="messageErreur">
+      {{ messageErreur }}
+    </p>
+     <!-- Destination title -->
+    <div class="destination-title" *ngIf="destinationTrouvee">
+      <span class="icon">📍</span>
+      <span class="name">{{ destinationTrouvee }}</span>
+      <span class="distance">{{ distanceTrouvee }} km</span>
+    </div>
 
-      <p *ngIf="messageErreur">{{ messageErreur }}</p>
+    <!-- RESULTATS CARDS -->
+    <div class="results-card" *ngIf="modes.length > 0">
 
-      <div class="result-list" *ngIf="resultats.length > 0">
-        <div class="result-item" *ngFor="let r of resultats">
-          <h3>{{ r.mode }}</h3>
-          <p>Durée : {{ r.duree }}</p>
-          <p>Distance : {{ r.distance }}</p>
+      <h2>Modes de transport</h2>
+
+      <div class="mode-cards">
+
+        <div
+          class="mode-card"
+          *ngFor="let m of modes"
+          [class.recommended]="m.mode === recommande"
+        >
+
+          <div class="rec-badge" *ngIf="m.mode === recommande">
+            ✓ Recommandé
+          </div>
+
+          <div class="mode-icon">
+            {{ icons[m.mode] }}
+          </div>
+
+          <div class="mode-name">
+            {{ m.mode }}
+          </div>
+
+          <div class="mode-time">
+            {{ m.duree }} min
+          </div>
+
         </div>
+
       </div>
     </div>
+    <div class="useful-links">
+      <h3>Liens utiles</h3>
+      <div class="transport-links">
+          
+        <a
+          href="https://www.star.fr/"
+          target="_blank"
+          class="transport-link"
+        >
+          🚌 Réseau STAR
+        </a>
+
+        <a
+          href="https://www.star.fr/reseau-star/velo#lc:/bss"
+          target="_blank"
+          class="transport-link"
+        >
+          🚴 VéloStar
+        </a>
+
+      </div>
+    </div>
+
   </div>
 </section>
