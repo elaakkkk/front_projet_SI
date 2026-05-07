@@ -1,0 +1,53 @@
+<div class="filtre">
+
+  <!-- Recherche texte -->
+  <div class="filtre__search">
+    <span class="filtre__search-icon"></span>
+    <input
+      type="text"
+      placeholder="Rechercher un lieu..."
+      [(ngModel)]="recherche"
+       (ngModelChange)="onRechercheChange($event)"
+      class="filtre__input">
+  </div>
+
+  <!-- Dropdown Type -->
+  <select
+    class="filtre__select"
+    [value]="typeSelectionne"
+    (change)="onTypeChange($any($event.target).value)">
+    <option value="">Tous les types</option>
+      @for(type of types; track type){
+        <option [value]="type">{{ type }}</option>
+    }@empty {
+      <option disabled>aucun types n'est disponible</option>
+    }
+  </select>
+
+  <!-- Dropdown Domaine -->
+  <select
+    class="filtre__select"
+    [value]="domaineSelectionne"
+    (change)="onDomaineChange($any($event.target).value)">
+    <option value="">Tous les domaines</option>
+    @for(domaine of domaines; track domaine){
+      <option [value]="domaine">{{ domaine }}</option>
+    }
+  </select>
+
+  <!-- Rayon km -->
+  <input
+    type="number"
+    placeholder="Rayon km (ex: 2)"
+    class="filtre__input filtre__input--rayon"
+    [value]="rayonKm ?? ''"
+    (change)="onRayonChange($any($event.target).value)"
+    min="0"
+    step="0.5">
+
+  <!-- Réinitialiser -->
+  <button class="filtre__btn-reset" (click)="onReinitialiser()">
+    Réinitialiser
+  </button>
+
+</div>
