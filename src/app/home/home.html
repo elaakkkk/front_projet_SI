@@ -1,8 +1,6 @@
 <app-navbar></app-navbar>
 
 <div class="home">
-
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-left">
       <div class="tag">Open Data · Tourisme · Train</div>
@@ -19,20 +17,21 @@
       </p>
 
       <div class="buttons">
-        <button class="btn primary">Explorer les lieux</button>
-        <button class="btn secondary" [routerLink]="['/itineraire']">Voir les statistiques</button>
+        <button class="btn primary" [routerLink]="['/points']">Explorer les lieux</button>
+        <button class="btn secondary" [routerLink]="['/statistiques']">Voir les statistiques</button>
       </div>
 
-    <!-- PETITES STATS SOUS LES BOUTONS -->
       <div class="hero-stats">
         <div class="stat-mini">
           <div class="stat-value">{{ stats.total_points }}</div>
           <div class="stat-label">LIEUX</div>
         </div>
+
         <div class="stat-mini">
           <div class="stat-value">{{ stats.dans_1km_de_la_gare }}</div>
           <div class="stat-label">À ‹ 1 KM GARE</div>
         </div>
+
         <div class="stat-mini">
           <div class="stat-value">{{ stats.carbone_economise }}</div>
           <div class="stat-label">kg CO₂ économisés</div>
@@ -42,8 +41,6 @@
 
     <div class="hero-right">
       <div class="info-card">
-        <!-- <h3>Gare de Rennes</h3>
-        <p>Point de départ des itinéraires</p> -->
         <section class="map-section">
           <h2>Carte interactive de Rennes</h2>
           <div id="map" class="map"></div>
@@ -53,9 +50,9 @@
     </div>
   </section>
 
-  <!-- FEATURES -->
   <h2>Accès rapide</h2>
   <h3>Les fonctionnalités principales du projet</h3>
+
   <section class="features">
     <div class="feature" (click)="goTo('/points')">
       <h3>Points d'intérêt 📍</h3>
@@ -78,12 +75,10 @@
     </div>
   </section>
 
-  <!-- SOURCES -->
   <section class="sources">
     <h2>Sources de données ouvertes</h2>
 
     <div class="sources-grid">
-
       <div class="source-card">
         <div class="icon">🚉</div>
         <div>
@@ -119,8 +114,6 @@
           <span>defis.data.gouv.fr</span>
         </div>
       </div>
-
     </div>
   </section>
-
 </div>

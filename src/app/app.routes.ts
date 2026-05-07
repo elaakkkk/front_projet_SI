@@ -5,12 +5,9 @@ import { Itineraire } from './itineraire/itineraire';
 import { Statistiques } from './statistiques/statistiques';
 
 export const routes: Routes = [
-    { path: '', component: Home },
-    { path: 'itineraire', component: Itineraire },
-    { path: 'statistiques', component: Statistiques },
-    // { path: 'lieux', component: LieuxComponent },
-    { path: 'co2', component: Co2 },
-    // { path: 'train', component: TrainComponent }
+  { path: '', component: Home },
+  { path: 'co2', component: Co2 },
+  { path: 'itineraire', component: Itineraire },
+  { path: 'statistiques', component: Statistiques },
+  { path: 'apercu', component: Statistiques },
 ];
-
-

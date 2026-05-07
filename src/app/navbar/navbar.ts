@@ -30,12 +30,12 @@ export class Navbar {
     this.tabChange.emit(tabId);
 
     const tab = this.tabs.find(t => t.id === tabId);
-    if (tab && tab.route !== undefined) {
-      this.router.navigate([tab.route]);
+    if (tab) {
+      this.router.navigate(['/' + tab.route]);
     }
   }
 
   goHome() {
-    this.setTab('home');
+    this.router.navigate(['/']);
   }
 }
