@@ -1,8 +1,6 @@
 <app-navbar></app-navbar>
 
 <div class="home">
-
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-left">
       <div class="tag">Open Data · Tourisme · Train</div>
@@ -19,15 +17,30 @@
       </p>
 
       <div class="buttons">
-        <button class="btn primary">Explorer les lieux</button>
-        <button class="btn secondary" routerLink="/statistiques">Voir les statistiques</button>
+        <button class="btn primary" [routerLink]="['/points']">Explorer les lieux</button>
+        <button class="btn secondary" [routerLink]="['/statistiques']">Voir les statistiques</button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-mini">
+          <div class="stat-value">{{ stats.total_points }}</div>
+          <div class="stat-label">LIEUX</div>
+        </div>
+
+        <div class="stat-mini">
+          <div class="stat-value">{{ stats.dans_1km_de_la_gare }}</div>
+          <div class="stat-label">À ‹ 1 KM GARE</div>
+        </div>
+
+        <div class="stat-mini">
+          <div class="stat-value">{{ stats.carbone_economise }}</div>
+          <div class="stat-label">kg CO₂ économisés</div>
+        </div>
       </div>
     </div>
 
     <div class="hero-right">
       <div class="info-card">
-        <!-- <h3>Gare de Rennes</h3>
-        <p>Point de départ des itinéraires</p> -->
         <section class="map-section">
           <h2>Carte interactive de Rennes</h2>
           <div id="map" class="map"></div>
@@ -37,35 +50,70 @@
     </div>
   </section>
 
-  <!-- STATS -->
-  <section class="stats">
-    <div class="stat-card" *ngFor="let s of stats">
-      <div class="stat-value">{{ s.value }}</div>
-      <div class="stat-label">{{ s.label }}</div>
-    </div>
-  </section>
+  <h2>Accès rapide</h2>
+  <h3>Les fonctionnalités principales du projet</h3>
 
-  <!-- FEATURES -->
   <section class="features">
-    <div class="feature">
-      <h3>Lieux touristiques</h3>
+    <div class="feature" (click)="goTo('/points')">
+      <h3>Points d'intérêt 📍</h3>
       <p>Explorez les points d’intérêt autour de Rennes.</p>
     </div>
 
-    <div class="feature">
-      <h3>Trains SNCF</h3>
+    <div class="feature" (click)="goTo('/trains')">
+      <h3>Prochains trains 🚉</h3>
       <p>Consultez les départs depuis Rennes.</p>
     </div>
 
-    <div class="feature">
-      <h3>CO₂</h3>
-      <p>Comparez train, voiture et avion.</p>
+    <div class="feature" (click)="goTo('/co2')">
+      <h3>Calculateur CO₂ 🌱</h3>
+      <p>Comparez les émissions carbone train / voiture / avion.</p>
     </div>
 
-    <div class="feature" routerLink="/itineraire" style="cursor: pointer;">
-      <h3>Itinéraires</h3>
-      <p>Trouvez le meilleur trajet.</p>
+    <div class="feature" (click)="goTo('/itineraire')">
+      <h3>Itinéraires 🗺️</h3>
+      <p>Calculez comment rejoindre un lieu depuis la gare - à pied, vélo, bus ou métro.</p>
     </div>
   </section>
 
+  <section class="sources">
+    <h2>Sources de données ouvertes</h2>
+
+    <div class="sources-grid">
+      <div class="source-card">
+        <div class="icon">🚉</div>
+        <div>
+          <strong>API SNCF / Navitia</strong>
+          <p>Horaires, gares, trajets en temps réel</p>
+          <span>api.sncf.com</span>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div class="icon">🏛️</div>
+        <div>
+          <strong>Basilic</strong>
+          <p>3 255 lieux touristiques (data.gouv)</p>
+          <span>data.gouv.fr</span>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div class="icon">🗺️</div>
+        <div>
+          <strong>OpenStreetMap</strong>
+          <p>Carte interactive et tracés ferroviaires</p>
+          <span>openstreetmap.org</span>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div class="icon">📊</div>
+        <div>
+          <strong>data.gouv.fr</strong>
+          <p>Défi Open Data SNCF</p>
+          <span>defis.data.gouv.fr</span>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>

@@ -3,23 +3,30 @@
 <section class="stats-page">
   <div class="container">
     <h1>Statistiques</h1>
+
     <p class="subtitle">
       Consultez les statistiques du tourisme et de la mobilité par ville.
     </p>
 
     <div class="filter-card">
-      <label for="ville">Choisir une ville</label>
-      <select id="ville" [(ngModel)]="villeSelectionnee" (change)="changerVille()">
-        <option *ngFor="let ville of villes" [value]="ville">
-          {{ ville }}
-        </option>
-      </select>
+      <div class="form-group">
+        <label>Choisir une ville</label>
+
+        <select
+          [ngModel]="villeSelectionnee"
+          (change)="changerVille($event)"
+        >
+          <option *ngFor="let ville of villes" [value]="ville">
+            {{ ville }}
+          </option>
+        </select>
+      </div>
     </div>
 
     <div class="stats-grid">
       <div class="stat-card" *ngFor="let stat of statistiques">
-        <h2>{{ stat.valeur }}</h2>
-        <p>{{ stat.titre }}</p>
+        <div class="value">{{ stat.valeur }}</div>
+        <div class="label">{{ stat.titre }}</div>
       </div>
     </div>
   </div>

@@ -3,29 +3,29 @@
 <section class="itineraire-page">
   <div class="container">
     <h1>Itinéraire</h1>
+
     <p class="subtitle">
-      Calculez un trajet depuis la Gare de Rennes vers votre destination.
+      Calculez un trajet depuis la Gare de Rennes avec un nom de lieu, un identifiant ou des coordonnées GPS.
     </p>
 
     <div class="form-card">
       <div class="form-group">
-        <label for="depart">Point de départ</label>
-        <input id="depart" type="text" [(ngModel)]="pointDepart" />
+        <label>Point de départ</label>
+        <input type="text" [(ngModel)]="pointDepart" />
       </div>
 
       <div class="form-group">
-        <label for="destination">Destination</label>
+        <label>Destination</label>
         <input
-          id="destination"
           type="text"
           [(ngModel)]="destination"
-          placeholder="Ex: Parlement de Bretagne"
+          placeholder="Ex: musée, parc, lieux_2 ou 48.1173,-1.6778"
         />
       </div>
 
       <div class="form-group">
-        <label for="mode">Mode préféré</label>
-        <select id="mode" [(ngModel)]="mode">
+        <label>Mode préféré</label>
+        <select [(ngModel)]="mode">
           <option value="marche">Marche</option>
           <option value="velo">Vélo</option>
           <option value="bus">Bus</option>
@@ -33,14 +33,17 @@
         </select>
       </div>
 
-      <button class="btn-primary" (click)="calculerItineraire()">
+      <button type="button" class="btn-primary" (click)="calculerItineraire()">
         Calculer
       </button>
     </div>
 
     <div class="results-card">
       <h2>Résultats</h2>
-      <div class="result-list">
+
+      <p *ngIf="messageErreur">{{ messageErreur }}</p>
+
+      <div class="result-list" *ngIf="resultats.length > 0">
         <div class="result-item" *ngFor="let r of resultats">
           <h3>{{ r.mode }}</h3>
           <p>Durée : {{ r.duree }}</p>
