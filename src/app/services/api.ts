@@ -39,12 +39,14 @@ export class Api {
   }
   // 🚆 GET /sncf/trains
   getTrains(limit: number = 10, destination?: string) {
-    let params = new HttpParams().set('limit', String(limit));
 
-    if (destination) {
-      params = params.set('destination', destination);
-    }
+  let params = new HttpParams()
+    .set('limit', limit.toString());
 
-    return this.http.get(`${this.baseUrl}/sncf/trains`, { params });
+  if (destination?.trim()) {
+    params = params.set('destination', destination);
   }
+
+  return this.http.get(`${this.baseUrl}/sncf/trains`, { params });
+}
 }

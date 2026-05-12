@@ -32,7 +32,7 @@ export class Trains implements OnInit {
   this.loading = true;
   this.error = '';
 
-  this.api.getTrains(10).subscribe({
+  this.api.getTrains(30).subscribe({
 
     next: (data: any) => {
 

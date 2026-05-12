@@ -1,5 +1,7 @@
 .co2-container {
-  background: #071a14;
+  background:
+    radial-gradient(circle at top left, #0f3d2e 0%, #071a14 40%),
+    linear-gradient(to bottom, #071a14, #03110d);
   color: #e8f5f1;
   min-height: 100vh;
   padding: 60px 40px;

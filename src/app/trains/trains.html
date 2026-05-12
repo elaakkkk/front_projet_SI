@@ -5,7 +5,7 @@
   <div class="container">
 
     <div class="header">
-      <h1>🚆 Prochains trains</h1>
+      <h1> Prochains trains </h1>
       <p>Départs depuis la Gare de Rennes</p>
     </div>
 
@@ -24,6 +24,7 @@
       </button>
 
     </div>
+    <p class="count">{{ filteredTrains.length }} trains trouvés</p>
 
     <!-- LOADING -->
     <div class="loading" *ngIf="loading">
@@ -52,18 +53,25 @@
 
           <tr *ngFor="let train of filteredTrains">
 
-            <td>
+            <!-- DESTINATION -->
+            <td class="destination">
               <strong>{{ train.destination }}</strong>
             </td>
 
-            <td>{{ train.depart }}</td>
+            <!-- HEURE -->
+            <td class="depart-time">
+              {{ train.depart }}
+            </td>
 
+            <!-- TYPE -->
             <td>
 
               <span
                 class="badge"
-                [class.tgv]="train.type === 'TGV'"
+                [class.tgv]="train.type === 'TGV INOUI'"
                 [class.ter]="train.type === 'TER'"
+                [class.breizhgo]="train.type === 'BreizhGo'"
+                [class.nomad]="train.type === 'NOMAD'"
               >
                 {{ train.type }}
               </span>
