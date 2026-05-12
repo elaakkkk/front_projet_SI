@@ -13,7 +13,6 @@ export const routes: Routes = [
   { path: 'statistiques', component: Statistiques },
   { path: 'apercu', component: Statistiques },
   { path: '', component: Home },
-  { path: 'itineraire', component: Itineraire },
   { path: 'statistiques', component: Statistiques },
   { path: 'lieux', component: PageLieuxTouristiques },
   { path: 'co2', component: Co2 },

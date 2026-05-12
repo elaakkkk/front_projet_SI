@@ -11,7 +11,7 @@
   <div class="form">
     <div class="card-input">
         <label for="input-destination">Destination (ex: Paris) :</label>
-        <input type="text" [(ngModel)]="destination" placeholder="Ville de destination" name="input-destination" />
+        <input type="text" [(ngModel)]="destination" placeholder="Ville de destination" name="input-destination" (keyup.enter)="calculate()"/>
     </div>
     <div class="card-input">
         <label for="input-nbPersonnes">Nombre de personnes (1 à 10) :</label>
