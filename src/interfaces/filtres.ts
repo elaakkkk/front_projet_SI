@@ -5,4 +5,5 @@ export interface Filtres {
   source?: string;
   limit?: number;
   recherche?: string;
+  localSearchOnly?: boolean;
 }

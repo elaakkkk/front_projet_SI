@@ -15,7 +15,8 @@ import { CommonModule } from '@angular/common';
 export class Filtre implements OnInit {
 
   @Input() types: string[] = [];
-  @Input() filtres: Filtres = {};
+  @Input() filtres: Filtres = {
+  };
   @Input() domaines: string[] = [];
 
   @Output() filtresChange = new EventEmitter<Filtres>();
@@ -32,27 +33,29 @@ export class Filtre implements OnInit {
     this.typeSelectionne    = this.filtres.type    ?? '';
     this.domaineSelectionne = this.filtres.domaine ?? '';
     this.rayonKm            = this.filtres.rayon_km ?? null;
+    this.recherche=this.filtres.recherche??'';
   }
 
   onRechercheChange(value: string): void {
   this.recherche = value;
-  this.emettreFiltres();
+  this.emettreFiltres(true);
+  
 }
 
   onTypeChange(value: string): void {
     this.typeSelectionne = value;
-    this.emettreFiltres();
+    this.emettreFiltres(false);
   }
 
   onDomaineChange(value: string): void {
     this.domaineSelectionne = value;
-    this.emettreFiltres();
+    this.emettreFiltres(false);
   }
 
-  onRayonChange(value: string): void {
-    this.rayonKm = value ? parseFloat(value) : null;
-    this.emettreFiltres();
-  }
+  onRayonChange(value: number | string | null): void {
+  this.rayonKm = value !== null && value !== '' ? Number(value) : null;
+  this.emettreFiltres(false);
+}
 
   onReinitialiser(): void {
     this.typeSelectionne    = '';
@@ -62,12 +65,14 @@ export class Filtre implements OnInit {
     this.reinitialiser.emit();
   }
 
-  private emettreFiltres(): void {
+  private emettreFiltres(localSearchOnly:boolean = false): void {
     const filtres: Filtres = {};
     if (this.typeSelectionne)    filtres.type     = this.typeSelectionne;
     if (this.domaineSelectionne) filtres.domaine  = this.domaineSelectionne;
     if (this.rayonKm)            filtres.rayon_km = this.rayonKm;
     if (this.recherche)            filtres.recherche = this.recherche;
+    if (localSearchOnly){
+        filtres.localSearchOnly=true}
     this.filtresChange.emit(filtres);
   }
 }
