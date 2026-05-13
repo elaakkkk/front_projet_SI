@@ -1,34 +1,33 @@
 <div class="section-lieux">
+
   <!-- État loading -->
-  <div class="section-lieux__loading">
-    @if(loading){
+  @if(loading) {
+    <div class="section-lieux__loading">
       <div class="section-lieux__spinner"></div>
-    <p>Chargement des lieux...</p>
-    }
-  </div>
+      <p>Chargement des lieux...</p>
+    </div>
+  }
 
-  <!-- Aucun résultat -->
+  <!-- Contenu : affiché uniquement si pas en loading -->
+  @if(!loading) {
 
-    @if(!loading && points.length === 0){
-      <div class="section-lieux__vide" >
-      <p>Aucun lieu trouvé pour ces filtres.</p>
+    @if(points.length === 0) {
+      <div class="section-lieux__vide">
+        <p>Aucun lieu trouvé pour ces filtres.</p>
       </div>
     }
-  
 
-  <!-- Compteur + grille -->
-  <ng-container >
-     @if(!loading && points.length > 0){
+    @if(points.length > 0) {
       <p class="section-lieux__compteur">
-      {{ points.length }} lieu(x) trouvé(s)
-    </p>
-    }
-
-    <div class="section-lieux__grille">
-        @for(point of points; track point.id){
+        {{ points.length }} lieu(x) trouvé(s)
+      </p>
+      <div class="section-lieux__grille">
+        @for(point of points; track point.id) {
           <app-carte-lieu [point]="point"></app-carte-lieu>
         }
-    </div>
-  </ng-container>
+      </div>
+    }
+
+  }
 
 </div>

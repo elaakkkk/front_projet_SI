@@ -1,14 +1,17 @@
 <div class="filtre">
 
-  <!-- Recherche texte -->
+  <!-- Recherche texte + bouton Rechercher -->
   <div class="filtre__search">
     <span class="filtre__search-icon"></span>
     <input
       type="text"
       placeholder="Rechercher un lieu..."
       [(ngModel)]="recherche"
-       (ngModelChange)="onRechercheChange($event)"
+      (keyup.enter)="onRechercheSubmit()"
       class="filtre__input">
+    <button class="filtre__btn-search" (click)="onRechercheSubmit()">
+      Rechercher
+    </button>
   </div>
 
   <!-- Dropdown Type -->
@@ -17,10 +20,10 @@
     [value]="typeSelectionne"
     (change)="onTypeChange($any($event.target).value)">
     <option value="">Tous les types</option>
-      @for(type of types; track type){
-        <option [value]="type">{{ type }}</option>
-    }@empty {
-      <option disabled>aucun types n'est disponible</option>
+    @for(type of types; track type){
+      <option [value]="type">{{ type }}</option>
+    } @empty {
+      <option disabled>Aucun type disponible</option>
     }
   </select>
 

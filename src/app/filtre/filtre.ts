@@ -27,7 +27,7 @@ export class Filtre implements OnChanges {
   recherche: string = '';
 
   ngOnChanges(changes:SimpleChanges): void {
-    if(changes['filtre']){
+    if(changes['filtres']){
     const f= changes['filtres'].currentValue as Filtres;
     this.typeSelectionne    = f.type    ?? '';
     this.domaineSelectionne = f.domaine ?? '';
@@ -35,6 +35,9 @@ export class Filtre implements OnChanges {
     this.recherche=f.recherche??'';
   }
 }
+  onRechercheSubmit(): void {
+    this.emettreFiltres();
+  }
 
   onRechercheChange(value: string): void {
   this.recherche = value;
