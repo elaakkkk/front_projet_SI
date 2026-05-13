@@ -6,6 +6,6 @@ export interface Point {
   domaine?: string;
   distance_km?: number;
   source?: string;
-  lat?: number;
-  lon?: number;
+  latitude?: number;
+  longitude?: number;
 }

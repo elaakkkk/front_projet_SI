@@ -14,7 +14,7 @@
     width: 40px;
     height: 40px;
     border: 3px solid #2e3250;
-    border-top-color: #4f6ef7;
+    border-top-color: #34d399;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
@@ -37,7 +37,7 @@
 
   &__grille {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);  // ← forcé 3 colonnes
+    grid-template-columns: repeat(3, 1fr);  
     gap: 1.25rem;
 
     @media (max-width: 1024px) {

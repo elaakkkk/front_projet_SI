@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ChangeDetectorRef} from '@angular/core';
 import { Point } from '../../interfaces/point';
 import { CommonModule } from '@angular/common';
 import { PointsService } from '../points.service';
@@ -29,12 +29,13 @@ export class PageLieuxTouristiques implements OnInit{
   loading=false
   erreur:string |null =null
 
-  constructor(private pointsService :PointsService){
+  constructor(private pointsService :PointsService,private cdr: ChangeDetectorRef){
 
   }
   ngOnInit(): void {
     this.chargerMetadata();
     this.chargerPoints();
+    this.appliquerRechercheLocale();  
   }
 
   chargerMetadata(): void {
@@ -50,24 +51,31 @@ export class PageLieuxTouristiques implements OnInit{
 
    chargerPoints(): void {
   this.loading = true;
+  this.pointsFiltres=[]
 
   const filtresApi: Filtres = {
     type: this.filtres.type,
     domaine: this.filtres.domaine,
     rayon_km: this.filtres.rayon_km,
     source: this.filtres.source,
-    limit: this.filtres.limit
+    limit: 100
   };
 
   this.pointsService.getPoints(filtresApi).subscribe({
     next: (data) => {
       this.points = data;
+      this.pointsFiltres=[...data];
       this.appliquerRechercheLocale();
+      this.erreur=null;
       this.loading = false;
+      this.cdr.detectChanges();
     },
     error: () => {
+      this.points = [];
+      this.pointsFiltres = [];
       this.erreur = 'Impossible de charger les lieux.';
       this.loading = false;
+      this.cdr.detectChanges();
     }
   });
 }
@@ -83,10 +91,8 @@ export class PageLieuxTouristiques implements OnInit{
     this.filtres = { ...nouveauxFiltres };
 
     if (filtreApiChange) {
-      // Un filtre API a changé : recharger depuis le serveur
       this.chargerPoints();
     } else if (rechercheChangee) {
-      // Recherche texte seule : filtrage local, pas d'appel HTTP
       this.appliquerRechercheLocale();
     }
   }

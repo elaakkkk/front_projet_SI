@@ -1,56 +1,65 @@
 <div class="filtre">
 
-  <!-- Recherche texte + bouton Rechercher -->
-  <div class="filtre__search">
-    <span class="filtre__search-icon"></span>
+  <div class="filtre__row filtre__row--search">
     <input
       type="text"
       placeholder="Rechercher un lieu..."
       [(ngModel)]="recherche"
+      (ngModelChange)="onRechercheChange($event)"
       (keyup.enter)="onRechercheSubmit()"
-      class="filtre__input">
-    <button class="filtre__btn-search" (click)="onRechercheSubmit()">
+      class="filtre__input filtre__input--search">
+
+    <button
+      type="button"
+      class="filtre__btn filtre__btn--search"
+      (click)="onRechercheSubmit()">
       Rechercher
+    </button>
+
+    <button
+      type="button"
+      class="filtre__btn filtre__btn--reset"
+      (click)="onReinitialiser()">
+      Réinitialiser
     </button>
   </div>
 
-  <!-- Dropdown Type -->
-  <select
-    class="filtre__select"
-    [value]="typeSelectionne"
-    (change)="onTypeChange($any($event.target).value)">
-    <option value="">Tous les types</option>
-    @for(type of types; track type){
-      <option [value]="type">{{ type }}</option>
-    } @empty {
-      <option disabled>Aucun type disponible</option>
-    }
-  </select>
+  <div class="filtre__row filtre__row--selects">
+    <select
+      class="filtre__select"
+      [value]="typeSelectionne"
+      (change)="onTypeChange($any($event.target).value)">
+      <option value="">Tous les types</option>
 
-  <!-- Dropdown Domaine -->
-  <select
-    class="filtre__select"
-    [value]="domaineSelectionne"
-    (change)="onDomaineChange($any($event.target).value)">
-    <option value="">Tous les domaines</option>
-    @for(domaine of domaines; track domaine){
-      <option [value]="domaine">{{ domaine }}</option>
-    }
-  </select>
+      @for (type of types; track type) {
+        <option [value]="type">{{ type }}</option>
+      } @empty {
+        <option disabled>Aucun type disponible</option>
+      }
+    </select>
 
-  <!-- Rayon km -->
-  <input
-    type="number"
-    placeholder="Rayon km (ex: 2)"
-    class="filtre__input filtre__input--rayon"
-    [value]="rayonKm ?? ''"
-    (change)="onRayonChange($any($event.target).value)"
-    min="0"
-    step="0.5">
+    <select
+      class="filtre__select"
+      [value]="domaineSelectionne"
+      (change)="onDomaineChange($any($event.target).value)">
+      <option value="">Tous les domaines</option>
 
-  <!-- Réinitialiser -->
-  <button class="filtre__btn-reset" (click)="onReinitialiser()">
-    Réinitialiser
-  </button>
+      @for (domaine of domaines; track domaine) {
+        <option [value]="domaine">{{ domaine }}</option>
+      } @empty {
+        <option disabled>Aucun domaine disponible</option>
+      }
+    </select>
+
+    <input
+      type="text"
+     inputmode="decimal"
+      placeholder="Rayon km (ex: 2)"
+      class="filtre__input filtre__input--rayon"
+      [value]="rayonKm ?? ''"
+      (change)="onRayonChange($any($event.target).value)"
+      min="0"
+      step="0.5">
+  </div>
 
 </div>

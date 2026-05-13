@@ -2,7 +2,7 @@
 
   <!-- Header source -->
   <div class="carte__source">
-    <span class="carte__source-icon">{{ getSourceIcon() }}</span>
+    <mat-icon class="lieu-card__icon"> {{ getSourceIcon() }}</mat-icon>
     <span class="carte__source-label">{{ getSourceLabel() }}</span>
   </div>
 
@@ -23,5 +23,11 @@
         <span class="carte__distance" >{{ getDistanceLabel() }}</span>
       }
   </div>
+   <!--btn : google maps -->
+   <button
+  class="lieu-card__link"
+  (click)=" voirItineraire()">
+  Voir sur Google maps 
+</button>
 
 </div>
