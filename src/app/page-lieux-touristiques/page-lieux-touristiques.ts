@@ -23,7 +23,7 @@ export class PageLieuxTouristiques implements OnInit{
   pointsFiltres: Point[] = [];
   types: string[]= []
   domaines: string[]=[]
-  recherche = '';
+
 
   filtres:Filtres={}
   loading=false
@@ -46,35 +46,8 @@ export class PageLieuxTouristiques implements OnInit{
       error: () => this.erreur = 'Impossible de charger les filtres.'
     });
   }
-  onRechercheChange(recherche: string): void {
-  this.recherche = recherche;
-  this.appliquerRecherche();
-}
-/*
-  chargerPoints(): void {
-    this.loading = true;
-    const filtresApi: Filtres = {
-    type: this.filtres.type,
-    domaine: this.filtres.domaine,
-    rayon_km: this.filtres.rayon_km,
-    source: this.filtres.source,
-    limit: this.filtres.limit
-  };
 
-    this.pointsService.getPoints(filtresApi).subscribe({
-      next: (data) => {
-        this.points = [...data];
-        this.pointsFiltres = [...data];
-        this.appliquerRecherche();
-        this.loading = false;
-      },
-      error: () => {
-        this.erreur = 'Impossible de charger les lieux.';
-        this.loading = false;
-      }
-    });
-  }
-    */
+
    chargerPoints(): void {
   this.loading = true;
 
@@ -89,7 +62,7 @@ export class PageLieuxTouristiques implements OnInit{
   this.pointsService.getPoints(filtresApi).subscribe({
     next: (data) => {
       this.points = data;
-      this.appliquerRecherche();
+      this.appliquerRechercheLocale();
       this.loading = false;
     },
     error: () => {
@@ -98,85 +71,47 @@ export class PageLieuxTouristiques implements OnInit{
     }
   });
 }
-  appliquerRecherche(): void {
-  const terme = this.recherche.toLowerCase().trim() ?? '';
-  if (!terme) {
-    this.pointsFiltres = [...this.points];
-    return;
-  }
-  this.pointsFiltres = this.points.filter(p =>{
-    const nom = p.nom?.toLowerCase()??'';
-    const adresse=p.adresse?.toLowerCase()??'';
-    const type = p.type?.toLowerCase() ?? '';
-    const domaine = p.domaine?.toLowerCase() ?? '';
-    return nom.includes(terme) || adresse.includes(terme) || type.includes(terme) || domaine.includes(terme);
-  }
-  );
-}
 
-/*
-
-onFiltresChange(nouveauxFiltres: Filtres): void {
-  this.filtres = { ...nouveauxFiltres };
-
-
-  if(nouveauxFiltres.localSearchOnly){
-    this.appliquerRecherche();
-    return;
-  }
-
-  const aFiltreAPI =
-    nouveauxFiltres.type !== undefined ||
-    nouveauxFiltres.domaine !== undefined ||
-    nouveauxFiltres.rayon_km !== undefined ||
-    nouveauxFiltres.source!== undefined;
-
-  this.chargerPoints();  
-
-  
-  
-  if (aFiltreAPI) {
-    this.chargerPoints();
-  } else {
-    this.appliquerRecherche();
-  }
-
-    
-}
-  */
  onFiltresChange(nouveauxFiltres: Filtres): void {
-  const rechercheAvant = this.filtres.recherche;
+    const rechercheChangee =
+      nouveauxFiltres.recherche !== this.filtres.recherche;
+    const filtreApiChange =
+      nouveauxFiltres.type     !== this.filtres.type    ||
+      nouveauxFiltres.domaine  !== this.filtres.domaine ||
+      nouveauxFiltres.rayon_km !== this.filtres.rayon_km;
 
-  // Cas recherche seule
-  if (
-    nouveauxFiltres.recherche !== undefined &&
-    nouveauxFiltres.type === undefined &&
-    nouveauxFiltres.domaine === undefined &&
-    nouveauxFiltres.rayon_km === undefined
-  ) {
-    this.filtres.recherche = nouveauxFiltres.recherche;
-    this.appliquerRecherche();
-    return;
+    this.filtres = { ...nouveauxFiltres };
+
+    if (filtreApiChange) {
+      // Un filtre API a changé : recharger depuis le serveur
+      this.chargerPoints();
+    } else if (rechercheChangee) {
+      // Recherche texte seule : filtrage local, pas d'appel HTTP
+      this.appliquerRechercheLocale();
+    }
   }
-
-  // Cas filtre API
-  this.filtres = {
-    ...nouveauxFiltres,
-    recherche: rechercheAvant
-  };
-
-  this.chargerPoints();
-}
-
-
+   private appliquerRechercheLocale(): void {
+    const terme = (this.filtres.recherche ?? '').toLowerCase().trim();
+    if (!terme) {
+      this.pointsFiltres = [...this.points];
+      return;
+    }
+    this.pointsFiltres = this.points.filter((p) => {
+      const nom     = p.nom?.toLowerCase()    ?? '';
+      const adresse = p.adresse?.toLowerCase() ?? '';
+      const type    = p.type?.toLowerCase()    ?? '';
+      const domaine = p.domaine?.toLowerCase() ?? '';
+      return (
+        nom.includes(terme)     ||
+        adresse.includes(terme) ||
+        type.includes(terme)    ||
+        domaine.includes(terme)
+      );
+    });
+  }
 
   onReset():void{
-    //this.filtres={}
-    //this.pointsFiltres=[];
-    //this.chargerPoints();
-
   this.filtres = {};
-  this.recherche = '';
   this.chargerPoints();
   }
 

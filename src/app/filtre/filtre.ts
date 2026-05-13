@@ -1,4 +1,4 @@
-import { Component,Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component,Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Filtres } from '../../interfaces/filtres';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -12,34 +12,34 @@ import { CommonModule } from '@angular/common';
   templateUrl: './filtre.html',
   styleUrl: './filtre.scss',
 })
-export class Filtre implements OnInit {
+export class Filtre implements OnChanges {
 
   @Input() types: string[] = [];
-  @Input() filtres: Filtres = {
-  };
+  @Input() filtres: Filtres = {};
   @Input() domaines: string[] = [];
 
   @Output() filtresChange = new EventEmitter<Filtres>();
   @Output() reinitialiser = new EventEmitter<void>();
 
-  // État local du formulaire
   typeSelectionne: string = '';
   domaineSelectionne: string = '';
   rayonKm: number | null = null;
   recherche: string = '';
 
-  ngOnInit(): void {
-    // Sync avec les filtres reçus en Input (utile si la page recharge)
-    this.typeSelectionne    = this.filtres.type    ?? '';
-    this.domaineSelectionne = this.filtres.domaine ?? '';
-    this.rayonKm            = this.filtres.rayon_km ?? null;
-    this.recherche=this.filtres.recherche??'';
+  ngOnChanges(changes:SimpleChanges): void {
+    if(changes['filtre']){
+    const f= changes['filtres'].currentValue as Filtres;
+    this.typeSelectionne    = f.type    ?? '';
+    this.domaineSelectionne = f.domaine ?? '';
+    this.rayonKm            = f.rayon_km ?? null;
+    this.recherche=f.recherche??'';
   }
+}
 
   onRechercheChange(value: string): void {
   this.recherche = value;
   this.emettreFiltres(true);
-  
+
 }
 
   onTypeChange(value: string): void {
@@ -71,8 +71,6 @@ export class Filtre implements OnInit {
     if (this.domaineSelectionne) filtres.domaine  = this.domaineSelectionne;
     if (this.rayonKm)            filtres.rayon_km = this.rayonKm;
     if (this.recherche)            filtres.recherche = this.recherche;
-    if (localSearchOnly){
-        filtres.localSearchOnly=true}
     this.filtresChange.emit(filtres);
   }
 }
