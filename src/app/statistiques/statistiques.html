@@ -1,33 +1,157 @@
 <app-navbar></app-navbar>
 
 <section class="stats-page">
+
   <div class="container">
-    <h1>Statistiques</h1>
 
-    <p class="subtitle">
-      Consultez les statistiques du tourisme et de la mobilité par ville.
-    </p>
+    <!-- HEADER -->
+    <div class="page-header">
 
-    <div class="filter-card">
-      <div class="form-group">
-        <label>Choisir une ville</label>
-
-        <select
-          [ngModel]="villeSelectionnee"
-          (change)="changerVille($event)"
-        >
-          <option *ngFor="let ville of villes" [value]="ville">
-            {{ ville }}
-          </option>
-        </select>
+      <div>
+        <h1>📊 Statistiques des villes</h1>
+        <p>Analyse touristique des principales villes de Bretagne</p>
       </div>
+
+      <!-- SEARCH -->
+      <!-- <div class="search-box">
+
+        <input
+          type="text"
+          [(ngModel)]="ville"
+          placeholder="Écrire une ville..."
+          (keyup.enter)="loadStats()"
+        />
+
+        <button (click)="loadStats()">
+          Rechercher
+        </button>
+
+      </div> -->
+
     </div>
 
-    <div class="stats-grid">
-      <div class="stat-card" *ngFor="let stat of statistiques">
-        <div class="value">{{ stat.valeur }}</div>
-        <div class="label">{{ stat.titre }}</div>
-      </div>
+    <!-- QUICK CITIES -->
+    <div class="cities-bar">
+
+      <button
+        *ngFor="let v of villes"
+        (click)="selectVille(v)"
+        [class.active]="v === ville"
+      >
+        {{ v }}
+      </button>
+
     </div>
+
+    <!-- LOADING -->
+    <div class="loading" *ngIf="loading">
+      Chargement...
+    </div>
+
+    <!-- ERROR -->
+    <div class="error" *ngIf="error">
+      {{ error }}
+    </div>
+
+    <!-- CONTENT -->
+    <div *ngIf="stats">
+
+      <!-- STATS -->
+      <div class="stats-overview">
+
+        <div class="stat-card">
+          <div class="label">Ville</div>
+          <div class="value">{{ stats.ville }}</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="label">Total lieux</div>
+          <div class="value">{{ stats.total_points }}</div>
+        </div>
+
+      </div>
+
+      <!-- GRAPHS -->
+      <div class="grid">
+
+        <!-- TYPES -->
+        <div class="box">
+
+          <h3>Types de lieux</h3>
+
+          <div *ngFor="let item of parTypeEntries; trackBy: trackByKey">
+
+            <div class="row">
+              <span>{{ item.key }}</span>
+              <span>{{ item.value }}</span>
+            </div>
+
+            <div class="bar">
+              <div
+                class="fill blue"
+                [style.width.%]="getPercentage(item.value, parTypeEntries)"
+              ></div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- DOMAINES -->
+        <div class="box">
+
+          <h3>Domaines</h3>
+
+          <div *ngFor="let item of parDomaineEntries; trackBy: trackByKey">
+
+            <div class="row">
+              <span>{{ item.key }}</span>
+              <span>{{ item.value }}</span>
+            </div>
+
+            <div class="bar">
+              <div
+                class="fill green"
+                [style.width.%]="getPercentage(item.value, parDomaineEntries)"
+              ></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- TOP 5 -->
+      <div class="top">
+
+        <h3>🏆 Top 5 proches</h3>
+
+        <div class="cards">
+
+          <div
+            class="card"
+            *ngFor="let p of stats.top5_plus_proches"
+          >
+
+            <div class="distance">
+              📍 {{ p.distance_km }} km
+            </div>
+
+            <h4>{{ p.nom }}</h4>
+
+            <span class="badge">
+              {{ p.type }}
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
+
 </section>
