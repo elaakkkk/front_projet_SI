@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
 
@@ -34,7 +34,7 @@ export class Statistiques implements OnInit {
   ville: string = 'Rennes';
 
   // ======================
-  // CACHE (🔥 SPEED BOOST)
+  // CACHE ( SPEED BOOST)
   // ======================
   private cache = new Map<string, any>();
 
@@ -52,7 +52,7 @@ export class Statistiques implements OnInit {
 
   apiUrl = 'http://148.60.11.118/stats/apercu';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadStats();
@@ -85,6 +85,7 @@ export class Statistiques implements OnInit {
 
           this.setData(data);
           this.loading = false;
+          this.cdr.detectChanges();
         },
 
         error: () => {
