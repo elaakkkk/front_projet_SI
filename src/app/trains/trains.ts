@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
 import { Api } from '../services/api';
@@ -21,7 +21,7 @@ export class Trains implements OnInit {
   loading = false;
   error = '';
 
-  constructor(private api: Api) {}
+  constructor(private api: Api,private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadTrains();
@@ -40,6 +40,7 @@ export class Trains implements OnInit {
       this.filteredTrains = this.trains;
 
       this.loading = false;
+      this.cdr.detectChanges();
     },
 
     error: () => {
