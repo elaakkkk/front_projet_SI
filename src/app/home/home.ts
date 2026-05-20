@@ -57,87 +57,78 @@ export class Home implements AfterViewInit {
     attribution: '&copy; OpenStreetMap'
   }).addTo(map);
 
-  // -----------------------------
-  // NORMALISATION
-  // -----------------------------
-  const normalize = (t: string) =>
-    (t || '')
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/\p{Diacritic}/gu, '');
+  type Group = 'Musée' | 'Cinéma' | 'Monument';
 
-  const isMusee = (t: string) => normalize(t).includes('musee');
-  const isCinema = (t: string) => normalize(t).includes('cinema');
-  const isMonument = (t: string) => normalize(t).includes('monument');
+const colors: Record<Group, string> = {
+  Musée: '#e74c3c',
+  Cinéma: '#2ecc71',
+  Monument: '#9b59b6'
+};
 
-  // -----------------------------
-  // COULEURS
-  // -----------------------------
-  const getColor = (t: string) => {
-    if (isMusee(t)) return '#e74c3c';     // rouge
-    if (isCinema(t)) return '#2ecc71';    // vert
-    if (isMonument(t)) return '#9b59b6';  // violet
-    return '#34d399';
-  };
+const layers: Record<Group, any> = {
+  Musée: L.layerGroup().addTo(map),
+  Cinéma: L.layerGroup().addTo(map),
+  Monument: L.layerGroup().addTo(map)
+};
 
-  // -----------------------------
-  // DISTANCE
-  // -----------------------------
-  const distanceKm = (lat: number, lng: number) => {
-    const R = 6371;
-    const dLat = (lat - gare.lat) * Math.PI / 180;
-    const dLng = (lng - gare.lng) * Math.PI / 180;
+// -----------------------------
+// FETCH (BACKEND ONLY)
+// -----------------------------
+const fetchPoints = async (type: string) => {
+  const url = `http://148.60.11.118/points?type=${encodeURIComponent(type)}&limit=500`;
+  return await this.http.get<any[]>(url).toPromise();
+};
 
-    const a =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos(gare.lat * Math.PI / 180) *
-      Math.cos(lat * Math.PI / 180) *
-      Math.sin(dLng / 2) ** 2;
+const musees = await fetchPoints('musée');
+const cinemas = await fetchPoints('cinéma');
+const monuments = await fetchPoints('monument');
 
-    return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
-  };
+// -----------------------------
+// DISTANCE
+// -----------------------------
+const distanceKm = (lat: number, lng: number) => {
+  const R = 6371;
+  const dLat = (lat - gare.lat) * Math.PI / 180;
+  const dLng = (lng - gare.lng) * Math.PI / 180;
 
-  // -----------------------------
-  // LAYERS
-  // -----------------------------
-  const layers: any = {
-    Musée: L.layerGroup().addTo(map),
-    Cinéma: L.layerGroup().addTo(map),
-    Monument: L.layerGroup().addTo(map)
-  };
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(gare.lat * Math.PI / 180) *
+    Math.cos(lat * Math.PI / 180) *
+    Math.sin(dLng / 2) ** 2;
 
-  // -----------------------------
-  // DATA
-  // -----------------------------
-  const res: any = await this.http
-    .get('http://148.60.11.118/points')
-    .toPromise();
+  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+};
 
-  res.forEach((p: any) => {
+// -----------------------------
+// ADD MARKERS
+// -----------------------------
+const addMarkers = (data: any[], group: Group) => {
+  data.forEach((p: any) => {
 
-    const type = p.type || '';
     const dist = distanceKm(p.latitude, p.longitude);
-
-    let group = null;
-
-    if (isMusee(type)) group = 'Musée';
-    else if (isCinema(type)) group = 'Cinéma';
-    else if (isMonument(type)) group = 'Monument';
-    else return; // ignore autres types
 
     const marker = L.circleMarker([p.latitude, p.longitude], {
       radius: Math.max(4, 10 - dist),
-      color: getColor(type),
-      fillColor: getColor(type),
+      color: colors[group],
+      fillColor: colors[group],
       fillOpacity: 0.8
     }).bindPopup(`
       <b>${p.nom}</b><br/>
-      ${type}<br/>
+      ${p.type}<br/>
       ${dist.toFixed(2)} km
     `);
 
     layers[group].addLayer(marker);
   });
+};
+
+// -----------------------------
+// APPLY DATA
+// -----------------------------
+addMarkers(musees || [], 'Musée');
+addMarkers(cinemas || [], 'Cinéma');
+addMarkers(monuments || [], 'Monument');
 
   // -----------------------------
   // GARE
