@@ -178,6 +178,7 @@ h1 {
   padding: 12px 16px;
   display: inline-flex;
   align-items: center;
+  min-height: 30px;
   gap: 10px;
   font-weight: 700;
   font-size: 16px;
@@ -241,5 +242,36 @@ h1 {
     color: #071a14;
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(52, 211, 153, 0.25);
+  }
+}
+.maps-link {
+  margin: 12px 20px 0;
+  padding: 12px 16px;
+  min-height: 30px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  border-radius: 12px;
+
+  background: rgba(52, 211, 153, 0.08);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+
+  backdrop-filter: blur(8px);
+
+  a {
+    color: #34d399;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+  }
+
+  &:hover {
+    background: #34d399;
+
+    a {
+      color: #071a14;
+    }
   }
 }

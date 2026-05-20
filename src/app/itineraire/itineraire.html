@@ -44,6 +44,16 @@
       <span class="distance">{{ distanceTrouvee }} km</span>
     </div>
 
+    <div class="maps-link" *ngIf="destinationTrouvee">
+      <span class="icon">🗺️</span>
+      <a
+        [href]="'https://www.google.com/maps/search/?api=1&query=' + destinationTrouvee"
+        target="_blank"
+      >
+        Voir sur Google Maps
+      </a>
+    </div>
+
     <!-- RESULTATS CARDS -->
     <div class="results-card" *ngIf="modes.length > 0">
 

@@ -15,6 +15,7 @@ export class Itineraire {
 
   pointDepart = 'Gare de Rennes';
   destination = '';
+  googleMapsUrl: string = '';
   
   modes: any[] = [];
   recommande: string = '';
@@ -110,6 +111,14 @@ export class Itineraire {
     }));
 
     this.recommande = item.recommande;
+    const destinationEncoded =
+      encodeURIComponent(this.destinationTrouvee);
+
+    const departEncoded =
+      encodeURIComponent(this.pointDepart);
+
+    this.googleMapsUrl =
+      `https://www.google.com/maps/dir/?api=1&origin=${departEncoded}&destination=${destinationEncoded}&travelmode=walking`;
 
     this.cdr.detectChanges();
   }
