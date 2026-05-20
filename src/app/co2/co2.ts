@@ -70,4 +70,53 @@ export class Co2 {
         }
       });
   }
+  getBulbHours(): number {
+
+    if (!this.result) return 0;
+
+    // ~0.05 kg CO2 / heure
+    return Math.round(
+      this.result.emissions.voiture.co2_kg / 0.05
+    );
+  }
+
+  getMealsEquivalent(): number {
+
+    if (!this.result) return 0;
+
+    // ~2.5 kg CO2 par repas
+    return Math.round(
+      this.result.emissions.voiture.co2_kg / 2.5
+    );
+  }
+
+  getTvHours(): number {
+
+    if (!this.result) return 0;
+
+    // ~0.08 kg CO2 / heure TV
+    return Math.round(
+      this.result.emissions.voiture.co2_kg / 0.08
+    );
+  }
+
+  getCarKmEquivalent(): number {
+
+    if (!this.result) return 0;
+
+    // ~0.2 kg CO2 / km voiture
+    return Math.round(
+      this.result.emissions.voiture.co2_kg / 0.2
+    );
+  }
+
+  getTreeDays(): number {
+
+    if (!this.result) return 0;
+
+    // arbre absorbe ~0.06 kg / jour
+    return Math.round(
+      this.result.economie_train_vs_voiture_kg / 0.06
+    );
+  }
 }

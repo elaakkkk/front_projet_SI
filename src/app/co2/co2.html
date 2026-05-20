@@ -1,45 +1,215 @@
 <app-navbar></app-navbar>
 
 <div class="co2-container">
-  <h1>Calculateur CO₂ 🌱</h1>
-  <p>
-    Comparez les émissions de CO₂ selon le mode de transport pour vos trajets depuis 
-    <strong>la gare de Rennes</strong>. Vous pouvez indiquer la destination et le nombre 
-    de personnes pour calculer l’impact total.
-  </p>
 
-  <div class="form">
-    <div class="card-input">
-        <label for="input-destination">Destination (ex: Paris) :</label>
-        <input type="text" [(ngModel)]="destination" placeholder="Ville de destination" name="input-destination" (keyup.enter)="calculate()"/>
-    </div>
-    <div class="card-input">
-        <label for="input-nbPersonnes">Nombre de personnes (1 à 10) :</label>
-        <input type="number" [(ngModel)]="nbPersonnes" min="1" max="10" name="input-nbPersonnes" />
-    </div>
- </div>
-<div class="actions">
-      <button class="btn primary" (click)="calculate()">Calculer</button>
-</div>
+  <div class="hero">
 
-  <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
-  <div>
-    <div class="results" *ngIf="result">
-      <h2>Résultats pour {{ result.destination }} ({{ result.nb_personnes }} personne{{ result.nb_personnes > 1 ? 's' : '' }})</h2>
-      
-      <ul>
-        <li>Train 🚆 : {{ result.emissions.train.co2_kg | number:'1.0-2' }} kg CO₂</li>
-        <li>Voiture 🚗 : {{ result.emissions.voiture.co2_kg | number:'1.0-2' }} kg CO₂</li>
-        <li>Avion ✈️ : {{ result.emissions.avion.co2_kg | number:'1.0-2' }} kg CO₂</li>
-      </ul>
+    <h1>🌱 Calculateur CO₂</h1>
 
-      <p><strong>Économie CO₂ si train vs voiture :</strong> {{ result.economie_train_vs_voiture_kg | number:'1.0-2' }} kg</p>
-      <p><em>{{ result.equivalent }}</em></p>
+    <p>
+      Comparez les émissions de CO₂ selon le mode de transport
+      pour vos trajets depuis
+      <strong>la gare de Rennes</strong>.
+    </p>
 
-      <!-- <p class="note">
-        ⚠️ Les valeurs sont estimées à partir des données ADEME - Base Carbone. 
-        Le calcul est basé sur le trajet depuis Rennes pour le nombre de personnes indiqué.
-      </p> -->
-    </div>
   </div>
+
+  <!-- FORM -->
+  <div class="form glass">
+
+    <div class="card-input">
+
+      <label for="input-destination">
+        Destination
+      </label>
+
+      <input
+        type="text"
+        [(ngModel)]="destination"
+        placeholder="Ex: Paris"
+        name="input-destination"
+        (keyup.enter)="calculate()"
+      />
+
+    </div>
+
+    <div class="card-input">
+
+      <label for="input-nbPersonnes">
+        Nombre de personnes
+      </label>
+
+      <input
+        type="number"
+        [(ngModel)]="nbPersonnes"
+        min="1"
+        max="10"
+        name="input-nbPersonnes"
+      />
+
+    </div>
+
+    <button
+      class="btn primary"
+      (click)="calculate()"
+    >
+      Calculer
+    </button>
+
+  </div>
+
+  <!-- ERROR -->
+  <div
+    class="error"
+    *ngIf="errorMessage"
+  >
+    {{ errorMessage }}
+  </div>
+
+  <!-- RESULTS -->
+  <div
+    class="results"
+    *ngIf="result"
+  >
+
+    <div class="results-header">
+
+      <h2>
+        Résultats pour
+        {{ result.destination }}
+      </h2>
+
+      <span class="people">
+        👤 {{ result.nb_personnes }}
+        personne{{ result.nb_personnes > 1 ? 's' : '' }}
+      </span>
+
+    </div>
+
+    <!-- TRANSPORTS -->
+    <div class="transport-list">
+
+      <!-- TRAIN -->
+      <div class="transport-card train">
+
+        <div class="transport-top">
+
+          <div class="emoji">
+            🚆
+          </div>
+
+          <div>
+
+            <h3>Train</h3>
+
+            <div class="co2">
+              {{ result.emissions.train.co2_kg | number:'1.0-2' }}
+              kg CO₂
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="equivalent">
+          💡 Équivaut à environ
+          <strong>
+            {{ (result.emissions.train.co2_kg * 12) | number:'1.0-0' }}
+          </strong>
+          heures de télévision allumée
+        </div>
+
+      </div>
+
+      <!-- VOITURE -->
+      <div class="transport-card voiture">
+
+        <div class="transport-top">
+
+          <div class="emoji">
+            🚗
+          </div>
+
+          <div>
+
+            <h3>Voiture</h3>
+
+            <div class="co2">
+              {{ result.emissions.voiture.co2_kg | number:'1.0-2' }}
+              kg CO₂
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="equivalent">
+          🍔 Correspond à environ
+          <strong>
+            {{ (result.emissions.voiture.co2_kg / 2.5) | number:'1.0-0' }}
+          </strong>
+          repas avec viande
+        </div>
+
+      </div>
+
+      <!-- AVION -->
+      <div class="transport-card avion">
+
+        <div class="transport-top">
+
+          <div class="emoji">
+            ✈️
+          </div>
+
+          <div>
+
+            <h3>Avion</h3>
+
+            <div class="co2">
+              {{ result.emissions.avion.co2_kg | number:'1.0-2' }}
+              kg CO₂
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="equivalent">
+          📱 Représente environ
+          <strong>
+            {{ (result.emissions.avion.co2_kg * 950) | number:'1.0-0' }}
+          </strong>
+          recharges de smartphone
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ECONOMY -->
+    <div class="economy-card">
+
+      <h3>
+        🌿 Économie avec le train
+      </h3>
+
+      <div class="saving">
+
+        {{
+          result.economie_train_vs_voiture_kg
+          | number:'1.0-2'
+        }}
+        kg CO₂ économisés
+
+      </div>
+
+      <!-- <p>
+        {{ result.equivalent }}
+      </p> -->
+
+    </div>
+
+  </div>
+
 </div>
