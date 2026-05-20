@@ -17,6 +17,7 @@ export class Trains implements OnInit {
   filteredTrains: any[] = [];
 
   searchTrain = '';
+  selectedDate = '';
 
   loading = false;
   error = '';
@@ -27,28 +28,36 @@ export class Trains implements OnInit {
     this.loadTrains();
   }
 
+  getToday(): string {
+    return new Date().toISOString().slice(0, 10).replaceAll('-', '');
+  }
+
   loadTrains() {
 
-  this.loading = true;
-  this.error = '';
+    this.loading = true;
 
-  this.api.getTrains(30).subscribe({
+    this.error = '';
 
-    next: (data: any) => {
-
-      this.trains = data.demo || data;
-      this.filteredTrains = this.trains;
-
-      this.loading = false;
-      this.cdr.detectChanges();
-    },
-
-    error: () => {
-      this.error = 'Impossible de charger les trains.';
-      this.loading = false;
-    }
-  });
-}
+    const dateToSend =
+      this.selectedDate?.trim()
+        ? this.selectedDate.replaceAll('-', '')
+        : this.getToday();
+        
+    this.api.getTrains(30, this.searchTrain, dateToSend)
+      .subscribe({
+        next: (data: any) => {
+          this.trains = data || [];
+          this.filteredTrains = this.trains;
+          this.loading = false;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error(err);
+          this.error = 'Erreur chargement trains';
+          this.loading = false;
+        }
+      });
+  }
 
   filterTrains() {
 

@@ -38,13 +38,17 @@ export class Api {
     return this.http.get(`${this.baseUrl}/stats/apercu`, { params });
   }
   // 🚆 GET /sncf/trains
-  getTrains(limit: number = 10, destination?: string) {
+  getTrains(limit: number = 10, destination?: string, date?: string) {
 
   let params = new HttpParams()
     .set('limit', limit.toString());
 
   if (destination?.trim()) {
     params = params.set('destination', destination);
+  }
+
+  if (date?.trim()) {
+    params = params.set('date', date);
   }
 
   return this.http.get(`${this.baseUrl}/sncf/trains`, { params });

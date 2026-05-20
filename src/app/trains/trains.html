@@ -18,6 +18,11 @@
         [(ngModel)]="searchTrain"
         (input)="filterTrains()"
       />
+      <input
+        type="date"
+        [(ngModel)]="selectedDate"
+        (change)="loadTrains()"
+      />
 
       <button (click)="filterTrains()">
         Rechercher
